@@ -35,6 +35,7 @@ jobs:
             - export IMAGE="ric03uec/sample_python:buildtime"
             - export DH_USR_NAME=$(shipctl get_integration_resource_field "registry_dh_ric03uec" "userName")
             - export DH_PASS=$(shipctl get_integration_resource_field "$registry_dh_ric03uec" "password")
+            - echo $DH_USR_NAME
             - docker login -u $DH_USR_NAME -p $DH_PASS
             - docker push $IMAGE
     on_success:
