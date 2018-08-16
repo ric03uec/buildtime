@@ -26,7 +26,7 @@ jobs:
             - export IMAGE="ric03uec/sample_python:buildtime"
             - pushd $(shipctl get_resource_state "repo_buildtime")
             - ls -alh
-            - docker build -t $IMAGE .
+            - time docker build -t $IMAGE .
             - popd
       - TASK:
           name: push_docker_image
@@ -36,7 +36,7 @@ jobs:
             - export DH_USR_NAME=$(shipctl get_integration_resource_field "registry_dh_ric03uec" "userName")
             - export DH_PASS=$(shipctl get_integration_resource_field "registry_dh_ric03uec" "password")
             - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker push $IMAGE
+            - time docker push $IMAGE
     on_success:
       - script: echo 'succeeded'
     on_failure:
