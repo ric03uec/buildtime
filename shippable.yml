@@ -1,0 +1,29 @@
+resources:
+  - name: reg_dh_ric03uec
+    type: integration
+    integration: reg_dh_ric03uec
+
+  - name: repo_buildtime
+    type: gitRepo
+    integration: gh-ric03uec
+    pointer:
+      sourceName: ric03uec/buildtime
+      branch: master
+
+jobs:
+  - name: build_docker_image
+    type: runSh
+    steps:
+      - IN: repo_buildtime
+      - IN: reg_dh_ric03uec
+        switch: off
+      - TASK:
+        - script:
+          - echo "======================================================"
+          - echo "============= $SHIPPABLE_AMI_VERSION ================="
+          - echo "======================================================"
+          - ls -alh
+    on_success:
+      - script: echo 'succeeded'
+    on_failure:
+      - script: echo 'failed'
