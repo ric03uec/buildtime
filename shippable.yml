@@ -26,7 +26,7 @@ jobs:
             - export IMAGE="ric03uec/sample_python:buildtime"
             - pushd $(shipctl get_resource_state "repo_buildtime")
             - ls -alh
-            - time docker build -t $IMAGE .
+            - time docker build --no-cache -t $IMAGE .
             - popd
       - TASK:
           name: push_docker_image
