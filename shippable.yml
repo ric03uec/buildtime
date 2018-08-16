@@ -1,11 +1,11 @@
 resources:
-  - name: reg_dh_ric03uec
+  - name: registry_dh_ric03uec
     type: integration
     integration: reg_dh_ric03uec
 
   - name: repo_buildtime
     type: gitRepo
-    integration: gh-ric03uec
+    integration: ric03uec-github
     pointer:
       sourceName: ric03uec/buildtime
       branch: master
@@ -15,7 +15,7 @@ jobs:
     type: runSh
     steps:
       - IN: repo_buildtime
-      - IN: reg_dh_ric03uec
+      - IN: registry_dh_ric03uec
         switch: off
       - TASK:
         - script:
