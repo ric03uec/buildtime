@@ -22,7 +22,12 @@ jobs:
             - echo "======================================================"
             - echo "============= $SHIPPABLE_AMI_VERSION ================="
             - echo "======================================================"
+            - export IMAGE="ric03uec/sample_python:buildtime"
+            - pushd $(shipctl get_resource_state "$repo_buildtime")
             - ls -alh
+            - docker build -t $IMAGE .
+            - docker push $IMAGE
+            - popd
     on_success:
       - script: echo 'succeeded'
     on_failure:
