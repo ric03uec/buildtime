@@ -23,3 +23,5 @@ RUN apt-get install -y \
   texinfo=6.1* \
   zip=3.0* \
   unzip=6.0*
+
+RUN ./u16/installRuby.sh
