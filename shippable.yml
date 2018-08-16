@@ -18,6 +18,7 @@ jobs:
       - IN: registry_dh_ric03uec
         switch: off
       - TASK:
+          name: build_docker_image
           script:
             - echo "======================================================"
             - echo "============= $SHIPPABLE_AMI_VERSION ================="
@@ -26,8 +27,16 @@ jobs:
             - pushd $(shipctl get_resource_state "repo_buildtime")
             - ls -alh
             - docker build -t $IMAGE .
-            - docker push $IMAGE
             - popd
+      - TASK:
+          name: push_docker_image
+          script:
+            - echo "Pushing docker image"
+            - export IMAGE="ric03uec/sample_python:buildtime"
+            - export DH_USR_NAME=$(shipctl get_integration_resource_field "registry_dh_ric03uec" "userName")
+            - export DH_PASS=$(shipctl get_integration_resource_field "$registry_dh_ric03uec" "password")
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker push $IMAGE
     on_success:
       - script: echo 'succeeded'
     on_failure:
